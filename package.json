@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "build": "tsc && tsc-alias",
+    "start": "node dist/server.ts",
+    "dev": "nodemon"
   },
   "keywords": [],
   "author": "",
@@ -16,12 +17,16 @@
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "mongoose": "^9.0.2",
-    "morgan": "^1.10.1",
-    "nodemon": "^3.1.11"
+    "morgan": "^1.10.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
-    "@types/morgan": "^1.9.10"
+    "@types/morgan": "^1.9.10",
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.16",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.3"
   }
 }

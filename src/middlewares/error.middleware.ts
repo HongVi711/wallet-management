@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from "express";
-import AppError from "../utils/appError";
 import {
   errorMessage,
   ErrorCode,
   StatusCode,
   ResponseStatus,
   Enviroment,
-} from "../constants/appConstants";
+  ErrorName,
+} from "@/constants/appConstants";
+import AppError from "@/utils/appError";
 
 /* =======================
    Mongo / Mongoose Errors
@@ -20,7 +21,8 @@ const handleCastErrorDB = (err: any): AppError => {
 };
 
 const handleDuplicateFieldsDB = (err: any): AppError => {
-  const value = err.errmsg?.match(/(["'])(\\?.)*?\1/)?.[0] || "unknown";
+  const field = Object.keys(err.keyValue)[0];
+  const value = err.keyValue[field];
   return new AppError(
     errorMessage.DUPLICATE_FIELD(value),
     StatusCode.BadRequest,
@@ -29,7 +31,9 @@ const handleDuplicateFieldsDB = (err: any): AppError => {
 };
 
 const handleValidationErrorDB = (err: any): AppError => {
-  const errors = Object.values(err.errors).map((el: any) => el.message);
+  const errors: string[] = Object.values(err.errors).map(
+    (el: any) => el.message
+  );
   return new AppError(
     errorMessage.VALIDATION_ERROR_DB(errors),
     StatusCode.BadRequest,
@@ -78,25 +82,24 @@ const globalErrorHandler = (
   err.statusCode = err.statusCode || StatusCode.InternalServer;
   err.status = err.status || ResponseStatus.error;
 
-  if (process.env.NODE_ENV === Enviroment.dev) {
-    sendErrorDev(err, res);
-  }
-
   if (process.env.NODE_ENV === Enviroment.prod) {
-    let error: any = { ...err };
+    let error = err as AppError;
     error.message = err.message;
-    if (err.name === "CastError") {
+    if (err.name === ErrorName.castError) {
       error = handleCastErrorDB(error);
     }
     if (err.code === 11000) {
       error = handleDuplicateFieldsDB(error);
     }
-    if (err.name === "ValidationError") {
+    if (err.name === ErrorName.validationError) {
       error = handleValidationErrorDB(error);
     }
 
     sendErrorProd(error, res);
+    return;
   }
+
+  sendErrorDev(err, res);
 };
 
 export default globalErrorHandler;

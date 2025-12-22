@@ -11,6 +11,11 @@ export enum ErrorCode {
   CastErrorDB = "CAST_ERROR_DATABASE",
 }
 
+export enum ErrorName {
+  castError = "CastError",
+  validationError = "ValidationError",
+}
+
 export enum ResponseStatus {
   fail = "fail",
   error = "error",
@@ -23,6 +28,10 @@ export enum StatusCode {
   BadRequest = 400,
   InternalServer = 500,
   Conflict = 419,
+}
+
+export enum StatusMessage {
+  ok = "OK",
 }
 
 export const errorMessage = {

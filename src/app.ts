@@ -2,8 +2,9 @@ import express, { json, urlencoded } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import path from "path";
-import globalErrorHandler from "./middlewares/error.middleware";
+import globalErrorHandler from "@/middlewares/error.middleware";
 
+import homeRoute from "@/router/home";
 //Routes
 //==============================
 //Middlewares
@@ -21,6 +22,7 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 // app.use("/api/v1/auth", authRoute);
 // app.use("/api/v1/roles", roleRoute);
 // app.use("/api/v1/users", userRoute);
+app.use("/", homeRoute);
 
 // Error handling middleware (luôn đặt cuối cùng)
 app.use(globalErrorHandler);

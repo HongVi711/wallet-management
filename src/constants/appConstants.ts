@@ -9,6 +9,8 @@ export enum ErrorCode {
   DuplicateFieldDB = "DUPLICATE_FIELD_DATABASE",
   ValidationErrorDB = "VALIDATION_ERROR_DATABASE",
   CastErrorDB = "CAST_ERROR_DATABASE",
+  endpointNotFound = "ENDPOINT_NOT_FOUND",
+  invalidInput = "INVALID_INPUT",
 }
 
 export enum ErrorName {
@@ -34,7 +36,7 @@ export enum StatusMessage {
   ok = "OK",
 }
 
-export const errorMessage = {
+export const ErrorMessage = {
   DUPLICATE_FIELD: (value: string) =>
     `Duplicate field value: ${value}. Please use another value!`,
   CAST_ERROR_DB: (path: string, value: string) => `Invalid ${path}: ${value}.`,
@@ -42,3 +44,24 @@ export const errorMessage = {
     `Invalid input data. ${value.join(". ")}`,
   UNKNOWN: () => "Something went very wrong!",
 };
+
+export enum Status {
+  normal = "0",
+  locked = "1",
+  removed = "2",
+  unused = "3",
+}
+
+export enum Currency {
+  VND = "VND",
+  USA = "USA",
+}
+
+export enum Model {
+  wallets = "wallets",
+  users = "users",
+}
+
+export enum Path {
+  wallet = "wallet",
+}

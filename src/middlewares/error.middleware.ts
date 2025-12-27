@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import {
-  errorMessage,
+  ErrorMessage,
   ErrorCode,
   StatusCode,
   ResponseStatus,
@@ -14,7 +14,7 @@ import AppError from "@/utils/appError";
 ======================= */
 const handleCastErrorDB = (err: any): AppError => {
   return new AppError(
-    errorMessage.CAST_ERROR_DB(err.path, err.value),
+    ErrorMessage.CAST_ERROR_DB(err.path, err.value),
     StatusCode.BadRequest,
     ErrorCode.CastErrorDB
   );
@@ -24,7 +24,7 @@ const handleDuplicateFieldsDB = (err: any): AppError => {
   const field = Object.keys(err.keyValue)[0];
   const value = err.keyValue[field];
   return new AppError(
-    errorMessage.DUPLICATE_FIELD(value),
+    ErrorMessage.DUPLICATE_FIELD(value),
     StatusCode.BadRequest,
     ErrorCode.DuplicateFieldDB
   );
@@ -35,7 +35,7 @@ const handleValidationErrorDB = (err: any): AppError => {
     (el: any) => el.message
   );
   return new AppError(
-    errorMessage.VALIDATION_ERROR_DB(errors),
+    ErrorMessage.VALIDATION_ERROR_DB(errors),
     StatusCode.BadRequest,
     ErrorCode.ValidationErrorDB
   );
@@ -66,14 +66,14 @@ const sendErrorProd = (error: AppError, response: Response): void => {
 
     response.status(StatusCode.InternalServer).json({
       status: ResponseStatus.error,
-      message: errorMessage.UNKNOWN,
+      message: ErrorMessage.UNKNOWN,
     });
   }
 };
 /* =======================
    Global Error Middleware
 ======================= */
-const globalErrorHandler = (
+export const globalErrorHandler = (
   err: any,
   req: Request,
   res: Response,
@@ -102,4 +102,16 @@ const globalErrorHandler = (
   sendErrorDev(err, res);
 };
 
-export default globalErrorHandler;
+export const notFoundHandler = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  next(
+    new AppError(
+      ErrorMessage.UNKNOWN(),
+      StatusCode.InternalServer,
+      ErrorCode.endpointNotFound
+    )
+  );
+};

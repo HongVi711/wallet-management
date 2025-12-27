@@ -1,6 +1,5 @@
 import { sendMessage } from "@/common/apiResponse";
 import catchAsync from "@/common/catchAsync";
-import { StatusCode, StatusMessage } from "@/constants/appConstants";
 
 import { Request, Response } from "express";
 

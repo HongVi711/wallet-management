@@ -35,3 +35,6 @@ export const isValidWalletStatus = (status: string): status is Status => {
 export const isValidCurrency = (value: string): value is Currency => {
   return Object.values(Currency).includes(value as Currency);
 };
+
+const escapeRegex = (value: string) =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

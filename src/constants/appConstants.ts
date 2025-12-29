@@ -65,3 +65,19 @@ export enum Model {
 export enum Path {
   wallet = "wallet",
 }
+
+export enum Operator {
+  equal = "eq", // =
+  notEqual = "ne", // !=
+  greaterThan = "gt", // >
+  greaterThanOrEqual = "gte", // >=
+  lessThan = "lt", // <
+  lessThanOrEqual = "lte", // <=
+  in = "in", // in array
+  regex = "regex", // like / contains
+}
+
+export enum SortOrder {
+  asc = "asc",
+  desc = "desc",
+}

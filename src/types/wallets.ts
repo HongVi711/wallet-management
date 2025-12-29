@@ -1,3 +1,5 @@
+import { Operator } from "@/constants/appConstants";
+
 export interface CreateWalletRequest {
   userId: string;
   walletName: string;
@@ -10,4 +12,20 @@ export interface CreateWalletRequest {
 
 export interface GetWalletRequest {
   id: string;
+}
+
+export interface WalletSearchQuery {
+  sort?: {
+    sortField: string;
+    sortOrder: string;
+  };
+  skip?: number;
+  limit?: number;
+  conditions?: [
+    {
+      fieldName: string;
+      searchValue: string[] | string;
+      operator: Operator;
+    }
+  ];
 }

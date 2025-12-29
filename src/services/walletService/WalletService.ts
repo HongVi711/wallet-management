@@ -4,7 +4,7 @@ import {
   errorValidateMessage,
   WalletField,
 } from "@/services/walletService/WalletServiceConstants";
-import { CreateWalletRequest } from "@/types/wallets";
+import { CreateWalletRequest, WalletSearchQuery } from "@/types/wallets";
 import AppError from "@/utils/appError";
 import {
   isValidCurrency,
@@ -91,11 +91,18 @@ const walletsServices = () => {
       await walletRepository.Create(body);
       return true;
     } catch (error) {
-      console.error("error: ", error);
       throw error;
     }
   };
-  return { createWallet };
+
+  const searchWallets = async (searchRequest: WalletSearchQuery) => {
+    try {
+      return await walletRepository.SearchWallet(searchRequest);
+    } catch (error) {
+      throw error;
+    }
+  };
+  return { createWallet, searchWallets };
 };
 
 export default walletsServices;

@@ -1,7 +1,7 @@
 import { sendMessage, sendResponse } from "@/common/apiResponse";
 import catchAsync from "@/common/catchAsync";
 import { ErrorMessage, StatusCode } from "@/constants/appConstants";
-import walletsServices from "@/services/walletService/walletService";
+import walletsServices from "@/services/walletService/WalletService";
 
 import { NextFunction, Request, Response } from "express";
 
@@ -14,26 +14,33 @@ const walletsController = () => {
     }
   );
 
-  const createWallet = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const response = await walletServices.createWallet(req.body);
+  const createWallet = catchAsync(async (req: Request, res: Response) => {
+    const response = await walletServices.createWallet(req.body);
 
-        if (response) {
-          sendResponse(res, undefined, { statusCode: StatusCode.Created });
-        } else {
-          sendResponse(res, undefined, {
-            message: ErrorMessage.UNKNOWN(),
-            statusCode: StatusCode.BadRequest,
-          });
-        }
-      } catch (error) {
-        next(error);
-      }
+    if (response) {
+      sendResponse(res, undefined, { statusCode: StatusCode.Created });
+    } else {
+      sendResponse(res, undefined, {
+        message: ErrorMessage.UNKNOWN(),
+        statusCode: StatusCode.BadRequest,
+      });
     }
-  );
+  });
 
-  return { homeIndex, createWallet };
+  const searchWallet = catchAsync(async (req: Request, res: Response) => {
+    const responseData = await walletServices.searchWallets(req.body);
+
+    if (responseData) {
+      sendResponse(res, responseData, { statusCode: StatusCode.Success });
+    } else {
+      sendResponse(res, undefined, {
+        message: ErrorMessage.UNKNOWN(),
+        statusCode: StatusCode.BadRequest,
+      });
+    }
+  });
+
+  return { homeIndex, createWallet, searchWallet };
 };
 
 export default walletsController;

@@ -5,6 +5,7 @@ export enum WalletField {
   currency = "currency",
   status = "status",
   createdBy = "createdBy",
+  updatedBy = "updatedBy",
 }
 
 export const errorValidateMessage = {

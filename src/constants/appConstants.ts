@@ -11,6 +11,7 @@ export enum ErrorCode {
   CastErrorDB = "CAST_ERROR_DATABASE",
   endpointNotFound = "ENDPOINT_NOT_FOUND",
   invalidInput = "INVALID_INPUT",
+  notFound = "NOT_FOUND",
 }
 
 export enum ErrorName {
@@ -80,4 +81,14 @@ export enum Operator {
 export enum SortOrder {
   asc = "asc",
   desc = "desc",
+}
+
+export enum SearchQueryField {
+  sortField = "sortField",
+  sortOrder = "sortOrder",
+  limit = "limit",
+  skip = "skip",
+  fieldName = "fieldName",
+  searchValue = "searchValue",
+  operator = "operator",
 }

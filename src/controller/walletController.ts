@@ -40,7 +40,20 @@ const walletsController = () => {
     }
   });
 
-  return { homeIndex, createWallet, searchWallet };
+  const updateWallet = catchAsync(async (req: Request, res: Response) => {
+    const response = await walletServices.updateWallet(req.params.id, req.body);
+
+    if (response) {
+      sendResponse(res, undefined, { statusCode: StatusCode.Success });
+    } else {
+      sendResponse(res, undefined, {
+        message: ErrorMessage.UNKNOWN(),
+        statusCode: StatusCode.BadRequest,
+      });
+    }
+  });
+
+  return { homeIndex, createWallet, searchWallet, updateWallet };
 };
 
 export default walletsController;

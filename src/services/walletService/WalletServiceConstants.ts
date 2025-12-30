@@ -6,7 +6,19 @@ export enum WalletField {
   status = "status",
   createdBy = "createdBy",
   updatedBy = "updatedBy",
+  createdAt = "createdAt",
+  updatedAt = "updatedAt",
 }
+
+export const WalletFieldsSelected = [
+  WalletField.userId,
+  WalletField.walletName,
+  WalletField.currency,
+  WalletField.balance,
+  WalletField.status,
+  WalletField.createdAt,
+  WalletField.updatedAt,
+].join(" ");
 
 export const errorValidateMessage = {
   FIELD_REQUIRED: (fieldName: string) => `${fieldName} is required`,

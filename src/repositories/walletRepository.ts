@@ -1,5 +1,6 @@
 import { Operator, SortOrder } from "@/constants/appConstants";
 import WalletsModel from "@/models/WalletsModel";
+import { WalletFieldsSelected } from "@/services/walletService/WalletServiceConstants";
 import {
   CreateWalletRequest,
   GetWalletRequest,
@@ -89,9 +90,7 @@ const walletsRepository = () => {
         query.sort({ [req.sort.sortField]: order });
       }
 
-      query.select(
-        "userId walletName currency balance status createdAt updatedAt"
-      );
+      query.select(WalletFieldsSelected);
 
       const data = await query.exec();
 
@@ -104,7 +103,20 @@ const walletsRepository = () => {
     }
   };
 
-  return { Create, GetOne, SearchWallet };
+  const UpdateWallet = async (id: string, updateData: any) => {
+    try {
+      await WalletsModel.findByIdAndUpdate(
+        id,
+        { $set: updateData },
+        { new: true }
+      );
+      return true;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return { Create, GetOne, SearchWallet, UpdateWallet };
 };
 
 export default walletsRepository;
